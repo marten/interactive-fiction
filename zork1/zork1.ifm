@@ -1,0 +1,225 @@
+title "Zork 1";
+
+map "Outside";
+
+  room "West of House" tag housewest;
+    item "Leaflet";
+
+  room "North of House" dir n e exit n tag housenorth;
+
+  room "Behind House" dir e s exit w e tag behind_house;
+    task "open window";
+
+  room "South of House" dir s e from housewest tag housesouth;
+  link housesouth to behind_house dir e n;
+
+  room "Forest" dir w 2 n 2 e from housewest oneway tag forest1;
+  room "Forest Path" dir e 2 tag forestpath;
+  room "Up a tree" dir n go up;
+    item "Jewel-encrusted Egg" tag egg score 5;
+    item "nest";
+  room "Forest" dir e 2 from forestpath tag forest2;
+  room "Thin forest" dir e tag thinforest;
+  link thinforest to forest2 dir n oneway;
+  link thinforest to forest2 dir s oneway;
+
+  room "Clearing (w/ locked grating)" dir n 2 e 2 from forest1 tag clearing1;
+    task "move leaves";
+  link clearing1 to forest2 dir e 2;
+  link housenorth to forestpath;
+
+  room "Clearing" dir e from behind_house tag clearing2;
+    link clearing2 to forest2;
+  room "Canyon view" dir e se;
+  room "Canyon halfway" dir e go down;
+  room "Canyon bottom" dir e go down;
+  room "End of Rainbow" dir n ne;
+
+  link forest1 to forest3 dir s 5 oneway;
+
+  room "Forest" dir s e se from housesouth oneway tag forest3;
+  link forest3 to clearing2 dir n;
+
+  room "Kitchen" dir w from behind_house go in style Jump nopath;
+
+map "House";
+
+  room "Kitchen" style Jump exit west east tag KitchenHouse score 10;
+    item "Bottle of water";
+    item "Brown sack" tag lunch;
+  join KitchenHouse to behind_house go e;
+
+  room "Attic" dir n go up;
+    item "Rope" tag rope;
+    item "Nasty knife";
+
+  room "Living Room" dir w from KitchenHouse exit e w tag livingroom;
+    item "Brass lantern" tag lantern;
+    item "Elvish sword" tag sword;
+    task "open case" tag opencase;
+    task "push rug";
+    task "open trap door" after last tag opentrapdoor;
+    task "put egg in case" after opencase need egg lose it score 5;
+    task "put figurine in case" after opencase need figurine lose it;
+    task "put painting in case" after opencase need painting lose it;
+    task "put staff in case" after opencase need staff lose it;
+    task "put coins in case" after opencase need coins lose it;
+    task "put bell in case" after opencase need bell lose it;
+    task "put tomb in case" after opencase need tomb lose it;
+    task "put skull in case" after opencase need skull lose it;
+    task "put bar in case" after opencase need bar lose it;
+    task "put jewels in case" after opencase need jewels lose it;
+    task "put trident in case" after opencase need trident lose it;
+
+  room "Cellar" dir s go down oneway after opentrapdoor style Jump nopath;
+
+map "Underground";
+
+  room "Cellar" exit n s tag cellar style Jump score 25;
+  join livingroom to cellar go down oneway;
+
+  room "East of Chasm" dir s;
+
+  room "Gallery" dir e;
+    item "Painting" tag painting;
+
+  room "Studio" dir n tag Studio;
+    item "Zork Owners Manual";
+  join Studio to KitchenHouse go up oneway;
+
+  room "Kitchen" dir n go up oneway style Jump nopath;
+
+  room "Troll room" dir n 3 from cellar tag troll exit e w;
+    task "hit troll" need sword;
+    task "hit troll" need sword after last;
+
+  room "Maze leaflet" dir w style Jump nopath;
+
+  room "East-West passage" dir e 3 from troll tag eastwestpassage;
+
+  room "Chasm" dir n 2 e tag chasm;
+
+  room "North-South" dir s tag northsouth;
+
+  room "Round room" dir s link eastwestpassage tag roundroom;
+
+  room "Engravings cave" dir se;
+  room "Dome room" dir e note "Get rope first";
+    task "tie rope to railing" need rope;
+  room "Torch room" dir s go down oneway after last;
+    item "flaming torch";
+  room "Temple" dir s tag temple;
+    item "Brass Bell" tag bell;
+  room "Egyptian Room" dir e;
+    item "Gold Coffin" tag tomb;
+    item "Sceptre" tag staff;
+  room "Altar (pray to forest)" dir s from temple tag altar;
+    item "Candles";
+    item "Large black book";
+    task "Turn page with hands";
+  join altar to forest1 cmd "pray";
+  link altar to cave dir w go down oneway;
+  room "Forest" dir e 3 from altar oneway style Jump nopath;
+
+  room "Narrow passage" dir s from roundroom;
+  room "Mirror room" dir s 2 tag mirrorroom;
+  room "Cave" dir e s tag cave;
+  room "Winding passage" dir w 2 tag windingpassage;
+  link windingpassage to mirrorroom dir n;
+
+  room "Entrance to hades" dir s from cave go down;
+    task "ring bell" need bell;
+    task "light match" need matches after last;
+    task "light candle with match" after last;
+    task "pray" after last;
+  room "Land of the dead" dir s after last;
+    item "Crystal Skull" tag skull;
+
+  room "Loud room" dir e from roundroom tag loudroom;
+    task "echo" tag echo;
+    item "Platinum bar" tag bar after echo;
+  room "Damp cave" dir e after echo;
+  room "White cliff beach" dir e after echo;
+  room "Beach" dir s after echo;
+
+  room "Deep canyon" dir n 2 from loudroom go up tag deepcanyon after echo;
+  link deepcanyon to northsouth dir sw;
+  room "Dam" dir e n tag dam;
+    task "turn bolt with wrench" need wrench tag lower_water;
+  room "Dam Lobby" dir n tag lobby;
+    item "Matchbook" tag matches keep;
+    item "Dam Guidebook";
+  room "Maintenance Room" dir e n tag maintenanceroom;
+    item "Wrench" tag wrench;
+    item "Tube of material";
+    item "Screwdriver";
+    task "Press red button";
+    task "Press yellow button";
+  link lobby to maintenanceroom dir n e;
+
+  room "Reservoir South" dir ne from chasm tag reservoirsouth;
+  link dam to reservoirsouth dir w;
+  room "Stream view" dir w;
+  room "Reservoir" dir n from reservoirsouth after lower_water;
+    item "Chest of jewels" tag jewels;
+  room "Reservoir North" dir n;
+    item "Hand-held pump" tag pump;
+  room "Atlantis Room" dir n tag atlantis;
+    item "Poseidon's Trident" tag trident;
+  room "Cave" dir n go up tag cave2;
+  room "Twisting passage" dir w 2;
+  room "Mirror room 2" dir n e tag mirror2;
+  link mirror2 to cave2 dir e;
+  room "Cold passage" dir n;
+  room "Slide room (to cellar)" dir w tag slide;
+  link slide to cellar dir w 5 s 12 oneway;
+  room "Mine entrance" dir n;
+  room "Squeaky room" dir w;
+  room "Bat room" dir n;
+    task "Get picked up by giant bat" goto ladder;
+    item "Jade figurine" tag figurine;
+
+  room "Ladder bottom" dir w oneway exit w s tag ladder; # taken by bat from bat room;
+  room "Timber room" dir w exit w e;
+    item "Broken timber";
+
+  room "Dead end" dir s from ladder;
+    item "Piece of coal";
+
+  room "Ladder top" dir n from ladder go up tag laddertop;
+  room "Coal Mine (more maze)" style Jump dir n go up exit n e s w ne nw se sw nopath;
+
+
+
+
+map "Maze";
+
+  room "Maze A" tag mazeA exit e style Jump;
+    join mazeA to troll go e;
+
+  room "Maze B" dir w 2 s 2 tag mazeB;
+
+  room "Maze C" dir w s tag mazeC;
+
+  room "Maze D" dir w tag mazeD;
+    link mazeD to mazeA dir s e 4 oneway;
+    link mazeD to mazeB dir n ne se go down oneway;
+
+  room "Dead end" dir e n from mazeB;
+  room "Skeleton" dir se sw from mazeC go up oneway tag skeleton;
+    item "skeleton key" tag key;
+    item "useless lantern";
+    item "bag of coins" tag coins;
+    item "rusty knife";
+    item "skeleton";
+
+  link skeleton to mazeC dir n oneway;
+
+  room "Dead end" dir e;
+
+map "Coal Mine";
+  room "Coal Mine" style Jump exit n e s w ne nw se sw tag coal1;
+  join coal1 to laddertop go up;
+
+page_rotate = false;
+room_colour = "gray70" in style Jump;
