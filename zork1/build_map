@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ifm -m -f ps -o zork1.ps zork1.ifm
