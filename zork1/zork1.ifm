@@ -31,7 +31,7 @@ map "Outside";
   room "Clearing" dir e from behind_house tag clearing2;
     link clearing2 to forest2;
   room "Canyon view" dir e se;
-  room "Canyon halfway" dir e go down;
+  room "Rocky ledge" dir e go down;
   room "Canyon bottom" dir e go down;
   room "End of Rainbow" dir n ne;
 
@@ -139,8 +139,8 @@ map "Underground";
     task "echo" tag echo;
     item "Platinum bar" tag bar after echo;
   room "Damp cave" dir e after echo;
-  room "White cliff beach" dir e after echo;
-  room "Beach" dir s after echo;
+  room "White Cliff Beach" dir e after echo;
+  room "White Cliff Beach" dir s after echo;
 
   room "Deep canyon" dir n 2 from loudroom go up tag deepcanyon after echo;
   link deepcanyon to northsouth dir sw;
@@ -156,6 +156,7 @@ map "Underground";
     task "Press red button";
     task "Press yellow button";
   link lobby to maintenanceroom dir n e;
+  room "Dam Base" dir e s from dam;
 
   room "Reservoir South" dir ne from chasm tag reservoirsouth;
   link dam to reservoirsouth dir w;
